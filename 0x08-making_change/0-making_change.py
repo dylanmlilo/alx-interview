@@ -19,16 +19,14 @@ def makeChange(coins, total):
     if total <= 0:
         return 0
 
-    min_coins = [total + 1] * (total + 1)
-    min_coins[0] = 0
+    coins.sort(reverse=True)
+    coins_needed = 0
 
-    for amount in range(1, total + 1):
-        for coin in coins:
-            if coin <= amount:
-                min_coins[amount] = (min(min_coins[amount],
-                                     min_coins[amount - coin] + 1))
+    for coin in coins:
+        coins_needed += total // coin
+        total %= coin
 
-    if min_coins[total] == total + 1:
+    if total != 0:
         return -1
     else:
-        return min_coins[total]
+        return coins_needed
